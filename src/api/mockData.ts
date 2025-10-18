@@ -1,0 +1,114 @@
+import type { DeliveryPerson, Route } from "../types";
+
+// Mock de entregadores - sincronizado com db.json
+export const mockDeliveryPeople: DeliveryPerson[] = [
+  {
+    id: "1",
+    name: "João Silva",
+    avatarUrl: "https://i.pravatar.cc/150?img=1",
+  },
+  {
+    id: "2",
+    name: "Maria Santos",
+    avatarUrl: "https://i.pravatar.cc/150?img=2",
+  },
+  {
+    id: "3",
+    name: "Pedro Oliveira",
+    avatarUrl: "https://i.pravatar.cc/150?img=3",
+  },
+  {
+    id: "4",
+    name: "Ana Costa",
+    avatarUrl: "https://i.pravatar.cc/150?img=4",
+  },
+  {
+    id: "5",
+    name: "Carlos Ferreira",
+  },
+];
+
+// Mock de rotas - sincronizado com db.json
+export const mockRoutes: Route[] = [
+  {
+    id: "1",
+    externalId: "Rota #541",
+    status: "completed",
+    deliveryCount: 8,
+    startTime: "2025-10-17T10:30:00.000Z",
+    estimatedDuration: 120,
+  },
+  {
+    id: "2",
+    externalId: "Rota #542",
+    status: "completed",
+    deliveryPerson: {
+      id: "1",
+      name: "João Silva",
+      avatarUrl: "https://i.pravatar.cc/150?img=1",
+    },
+    deliveryCount: 5,
+    startTime: "2025-10-17T10:45:00.000Z",
+    estimatedDuration: 90,
+  },
+  {
+    id: "3",
+    externalId: "Rota #543",
+    status: "completed",
+    deliveryPerson: {
+      id: "2",
+      name: "Maria Santos",
+      avatarUrl: "https://i.pravatar.cc/150?img=2",
+    },
+    deliveryCount: 12,
+    startTime: "2025-10-17T09:30:00.000Z",
+    estimatedDuration: 150,
+  },
+  {
+    id: "4",
+    externalId: "Rota #544",
+    status: "completed",
+    deliveryPerson: {
+      id: "3",
+      name: "Pedro Oliveira",
+      avatarUrl: "https://i.pravatar.cc/150?img=3",
+    },
+    deliveryCount: 7,
+    startTime: "2025-10-17T09:15:00.000Z",
+    estimatedDuration: 100,
+  },
+  {
+    id: "5",
+    externalId: "Rota #545",
+    status: "completed",
+    deliveryPerson: {
+      id: "4",
+      name: "Ana Costa",
+      avatarUrl: "https://i.pravatar.cc/150?img=4",
+    },
+    deliveryCount: 10,
+    startTime: "2025-10-17T07:00:00.000Z",
+    estimatedDuration: 140,
+  },
+  {
+    id: "6",
+    externalId: "Rota #546",
+    status: "completed",
+    deliveryPerson: {
+      id: "2",
+      name: "Maria Santos",
+      avatarUrl: "https://i.pravatar.cc/150?img=2",
+    },
+    deliveryCount: 6,
+    startTime: "2025-10-17T06:00:00.000Z",
+    estimatedDuration: 85,
+  },
+  {
+    id: "7",
+    externalId: "Rota #547",
+    status: "completed",
+    deliveryCount: 9,
+    startTime: "2025-10-17T11:00:00.000Z",
+    estimatedDuration: 130,
+  },
+];

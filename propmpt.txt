@@ -1,0 +1,176 @@
+Especificação Técnica: Painel de Gestão de Rotas
+
+1. Persona e Objetivo
+
+Persona: Atue como um desenvolvedor front-end sênior, especialista em React, TypeScript e boas práticas de arquitetura de software.
+Objetivo: Gerar o código inicial completo para uma aplicação de painel de gestão de rotas, seguindo as especificações detalhadas abaixo. A aplicação deve ser robusta, escalável e com componentes bem definidos.
+
+2. Visão Geral do Projeto
+
+Criar uma aplicação web interativa para a gestão de rotas de entrega, visualmente inspirada no painel de pedidos do iFood. O sistema permitirá que um gestor de logística visualize, organize e atualize o status das rotas em tempo real através de uma interface estilo Kanban.
+
+3. Definição de Modelos de Dados (TypeScript)
+
+Para garantir a consistência, utilize as seguintes interfaces:
+
+// status possíveis: 'ready', 'in_progress', 'completed'
+export type RouteStatus = 'ready' | 'in_progress' | 'completed';
+
+export interface DeliveryPerson {
+  id: string;
+  name: string;
+  avatarUrl?: string; // Opcional
+}
+
+export interface Route {
+  id: string;
+  externalId: string; // Ex: "Rota #541"
+  status: RouteStatus;
+  deliveryPerson?: DeliveryPerson;
+  deliveryCount: number;
+  startTime: string; // Formato ISO 8601
+  estimatedDuration: number; // Em minutos
+}
+
+
+4. Arquitetura e Estrutura de Arquivos
+
+Implemente a seguinte estrutura de diretórios e arquivos. Cada componente deve ser autocontido e reutilizável.
+
+src/
+ ├─ api/
+ │   └─ routesApi.ts   # Configuração do Axios e funções para chamadas HTTP
+ ├─ components/
+ │   ├─ core/          # Componentes de UI genéricos (Button, Modal, etc.)
+ │   └─ domain/        # Componentes específicos da aplicação
+ │       ├─ RouteCard.tsx
+ │       ├─ StatusColumn.tsx
+ │       ├─ Header.tsx
+ │       └─ AssignDeliveryPersonModal.tsx
+ ├─ hooks/
+ │   └─ useRoutesQuery.ts # Hooks customizados com React Query (useGetRoutes, useUpdateRouteStatus)
+ ├─ pages/
+ │   └─ Dashboard.tsx
+ ├─ store/
+ │   └─ useUIStore.ts   # Store do Zustand para estado de UI (ex: modal aberto)
+ ├─ types/
+ │   └─ index.ts        # Arquivo com as interfaces (Route, DeliveryPerson, etc.)
+ ├─ App.tsx
+ └─ main.tsx
+
+
+5. Especificação dos Componentes
+
+Header.tsx
+
+Responsabilidade: Exibir o título da aplicação e um botão "Verificar Novas Rotas".
+
+Ações: O clique no botão deve acionar uma função para recarregar os dados das rotas (refetch do React Query).
+
+StatusColumn.tsx
+
+Responsabilidade: Renderizar uma coluna que representa um status (Ex: "Pronto para Envio").
+
+Props: title: string, status: RouteStatus, routes: Route[].
+
+Funcionalidade: Deve iterar sobre o array routes e renderizar um componente RouteCard para cada rota.
+
+RouteCard.tsx
+
+Responsabilidade: Exibir os detalhes de uma única rota.
+
+Props: route: Route.
+
+Funcionalidade:
+
+Exibir: ID da rota, nome do motoboy (se houver), quantidade de entregas e horário.
+
+Ações: Deve conter botões/ícones para:
+
+Mudar Status: (Ex: "Iniciar Rota" ou "Finalizar").
+
+Atribuir Motoboy: Abre o modal AssignDeliveryPersonModal.
+
+Deletar Rota: (com confirmação).
+
+AssignDeliveryPersonModal.tsx
+
+Responsabilidade: Permitir a atribuição de um motoboy a uma rota específica.
+
+Funcionalidade:
+
+Deve receber o routeId como prop.
+
+Busca e exibe uma lista de motoboys disponíveis (dados virão da API).
+
+Ao selecionar um motoboy e confirmar, dispara a mutação para atualizar a rota.
+
+6. Gerenciamento de Estado
+
+React Query (Server State):
+
+Use useQuery para buscar a lista de todas as rotas e a lista de motoboys.
+
+Use useMutation para todas as ações que modificam dados no servidor:
+
+Atualizar status da rota.
+
+Atribuir motoboy.
+
+Deletar rota.
+
+Implemente optimistic updates na mutação de mudança de status para uma melhor experiência do usuário.
+
+Zustand (UI State):
+
+Crie uma store useUIStore para controlar o estado do modal de atribuição.
+
+Exemplo de estado: { isAssignModalOpen: boolean; selectedRouteId: string | null; openAssignModal: (routeId: string) => void; closeAssignModal: () => void; }.
+
+7. API (Mock)
+
+Assuma que os seguintes endpoints de API estão disponíveis:
+
+GET /api/routes
+
+Retorna: Route[]
+
+GET /api/delivery-people
+
+Retorna: DeliveryPerson[]
+
+PATCH /api/routes/:id
+
+Body: { status: RouteStatus } ou { deliveryPersonId: string }
+
+Retorna: Route (a rota atualizada)
+
+DELETE /api/routes/:id
+
+Retorna: 204 No Content
+
+8. Layout e Estilo (TailwindCSS)
+
+Layout Principal: Use Flexbox ou Grid para criar as três colunas no Dashboard.tsx.
+
+Responsividade: As colunas devem empilhar verticalmente em telas menores (mobile).
+
+Estilo: Clean, com sombras suaves (shadow-md), cantos arredondados (rounded-lg), e tipografia consistente (use a fonte Inter do Google Fonts).
+
+Ícones: Utilize a biblioteca lucide-react para todos os ícones da interface.
+
+9. Passo a Passo para Geração do Código
+
+Crie todos os arquivos da estrutura definida.
+
+Implemente as interfaces de tipo no src/types/index.ts.
+
+Configure o api.ts com o Axios e as funções de chamada.
+
+Desenvolva os hooks do React Query no useRoutesQuery.ts.
+
+Implemente a store do Zustand no useUIStore.ts.
+
+Crie os componentes de UI, começando pelos mais simples (RouteCard) e subindo na hierarquia até o Dashboard.tsx.
+
+Monte a aplicação final no App.tsx, incluindo o react-router-dom se houver mais páginas no futuro.

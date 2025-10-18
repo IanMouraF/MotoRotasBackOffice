@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ifood-red: #ea1d2c;
+  --color-ifood-background: #f3f4f6;
+  --color-sidebar-background: #f9fafb;
+}
+
+@layer base {
+  body {
+    @apply bg-ifood-background text-gray-800 font-sans;
+  }
+}
+
+@layer utilities {
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .animate-in {
+    animation: fade-in 0.2s ease-out;
+  }
+}
