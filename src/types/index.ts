@@ -1,36 +1,34 @@
-// Status possíveis para as rotas
 export type RouteStatus = "ready" | "in_progress" | "completed";
 
-// Interface para representar um entregador/motoboy
 export interface DeliveryPerson {
   id: string;
   name: string;
-  avatarUrl?: string; // Opcional
+  avatarUrl?: string;
 }
 
-// Interface para representar uma rota de entrega
+// Novo tipo para os pedidos que vêm do Python
+export interface Order {
+  id: string;
+  sequence: number;
+  coords: {
+    lat: number;
+    lon: number;
+  };
+}
+
 export interface Route {
   id: string;
-  externalId: string; // Ex: "Rota #541"
+  externalId: string;
   status: RouteStatus;
   deliveryPerson?: DeliveryPerson;
   deliveryCount: number;
-  startTime: string; // Formato ISO 8601
-  estimatedDuration: number; // Em minutos
+  startTime: string;
+  estimatedDuration: number;
+  orders: Order[]; // Adicionamos a lista de pedidos aqui
 }
 
-// Payload para atualização de rotas
-export interface RouteUpdatePayload {
-  status?: RouteStatus;
-  deliveryPersonId?: string;
-}
-
-export type DeliveryStatus = "aguardando" | "entregue" | "cancelada";
-
-export interface Delivery {
-  customerName: string;
-  address: string;
-  status: DeliveryStatus;
-  estimatedTime: string;
-  notes?: string;
+export interface MoveOrderPayload {
+  order_id: string;
+  old_route_id: string;
+  new_route_id: string | null; // null se for apenas remover da rota
 }
