@@ -90,7 +90,7 @@ const Dashboard = () => {
     setDraggedRouteId(null);
   };
 
-  if (isLoading) return <div className="p-6">Carregando kanban...</div>;
+  if (isLoading) return <div className="p-6">Carregando...</div>;
 
   const ready = routes?.filter((r) => r.status === "ready") || [];
   const inProgress = routes?.filter((r) => r.status === "in_progress") || [];
